@@ -52,7 +52,7 @@ class PostItVirtuali(wx.Frame):
         text = wx.GetTextFromUser('Nome della nota', ':-)')
         if text != '':
         #   self.listbox.Append(text)
-            myWindow = FrameAppunto(None, -1, text)
+            myWindow = FrameAppunto(None, -1, text,0)
             myWindow.Show(True)
             #self.SetTopWindow(myWindow)
 

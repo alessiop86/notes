@@ -1,9 +1,11 @@
 import wx
 
+from filemanager import  FileManager
+
 class FrameAppunto(wx.Frame):
 
 
-    def __init__(self, parent, ID, title):
+    def __init__(self, parent, ID, title, idAppunto):
 
         #definisco il frame principale (la window)
         wx.Frame.__init__(self, parent, ID, title,wx.DefaultPosition,
@@ -15,7 +17,19 @@ class FrameAppunto(wx.Frame):
 
         #proprieta usertext dell'oggetto
         self.usertext = textarea
+        self.title = title
+        self.idAppunto = idAppunto
 
+
+        self.Bind(wx.EVT_CLOSE, self.OnClose)
+
+
+    def OnClose(self, event):
+
+        fm = FileManager.Instance()
+        fm.save(self.idAppunto, self.title, self.usertext.GetValue())
+        print self.usertext.GetValue()
+        self.Destroy()
 
 #wx.EXPAND
         """
