@@ -32,9 +32,9 @@ class FrameAppunto(wx.Frame):
             fm.save(self.idAppunto, self.title, self.usertext.GetValue())
             print self.usertext.GetValue()
             """
-            fm.salvaNuovo(self.title, self.usertext.getValue())
+            fm.salvaNuovo(self.title, self.usertext.GetValue())
         except:
-            print "Unexpected error:", sys.exc_info()[0]
+            print "Unexpected error:", sys.exc_info()
         self.Destroy()
 
 #wx.EXPAND

@@ -48,6 +48,21 @@ class PostItVirtuali(wx.Frame):
         self.Centre()
         self.Show(True)
 
+
+        self.loadData()
+
+    def loadData(self):
+        fm = FileManager.Instance()
+        dictionary = fm.getDictionary()
+        files = dictionary['files']
+        print files
+        for obj in files:
+            print obj['id']
+            print obj['title']
+            self.listbox.Append(obj['title'],str(obj['id']))
+
+
+
     def NewItem(self, event):
 
         text = wx.GetTextFromUser('Nome della nota', ':-)')
@@ -77,7 +92,7 @@ class PostItVirtuali(wx.Frame):
 
 
 fm = FileManager.Instance()
-fm.salvaNuovo("title", "testo")
+#print fm.getTextEsistente(4)#
 
 
 #Lancio l'app
