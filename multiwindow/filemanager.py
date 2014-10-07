@@ -1,4 +1,6 @@
 import os.path
+import json
+import sys
 
 
 class Singleton:
@@ -31,6 +33,7 @@ class Singleton:
         try:
             return self._instance
         except AttributeError:
+            #Al primo richiamo e' corretto che non sia presente l'istanza
             self._instance = self._decorated()
             return self._instance
 
@@ -47,8 +50,51 @@ class FileManager:
     FOLDER = "docs/"
     INDEX = "docs/index.index"
 
+
+
     def __init__(self):
-       print 'Foo created'
+        try:
+
+            with open(self.INDEX, 'rb') as fp:
+                self._dictionary =  json.load(fp)
+            print "Dizionario esistente in " + self.INDEX
+        except:
+            #print "Unexpected error initializing dictionary:", sys.exc_info()[0]
+            print "Dizionario inesistente, creato ex novo"
+            #self.dictionary = json.dump({'index':0, 'files':{} })
+            self._dictionary = { 'sequence': 0 , 'files': [] }
+
+
+
+    #il Dizionario va aggiornato solo in caso di nuovo elemento, per gli altri va aggiornato solo il contenuto del file
+    def __updateDictionary(self, title):
+        print "updateDictionary()"
+
+        lastId = self._dictionary['sequence']
+        id = lastId + 1
+        self._dictionary['sequence'] = id
+        files = self._dictionary['files']
+        files.append({ id : title })
+
+        with open(self.INDEX, 'wb') as outfile:
+            json.dump(self._dictionary, outfile)
+        print "Update dizionario completato"
+
+        return id
+
+
+
+    def salvaNuovo(self, title,text):
+        id = self.__updateDictionary(title)
+        self.__salvaFile(id,text)
+
+
+    def __salvaFile(self,id,text):
+        path = self.FOLDER + str(id) + ".txt"
+        out_file = open(path,"w")
+        out_file.write(text)
+        out_file.close()
+
 
     def __generaNome(self,id,title):
 
@@ -70,5 +116,6 @@ class FileManager:
         out_file = open(self.FOLDER + nomeFile,"w")
         out_file.write(text)
         out_file.close()
+
 
 

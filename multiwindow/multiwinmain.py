@@ -1,6 +1,7 @@
 import wx
 
 from frameappunto import FrameAppunto
+from filemanager import FileManager
 
 
 ID_NEW = 1
@@ -74,7 +75,13 @@ class PostItVirtuali(wx.Frame):
 
 
 
+
+fm = FileManager.Instance()
+fm.salvaNuovo("title", "testo")
+
+
 #Lancio l'app
 app = wx.App()
 PostItVirtuali(None, -1, 'NonMiFreghiPiuDonnaDellePulizie') #parent, id, titolo
 app.MainLoop()
+
