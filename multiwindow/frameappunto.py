@@ -1,5 +1,5 @@
 import wx
-
+import sys
 from filemanager import  FileManager
 
 class FrameAppunto(wx.Frame):
@@ -26,9 +26,12 @@ class FrameAppunto(wx.Frame):
 
     def OnClose(self, event):
 
-        fm = FileManager.Instance()
-        fm.save(self.idAppunto, self.title, self.usertext.GetValue())
-        print self.usertext.GetValue()
+        try:
+            fm = FileManager.Instance()
+            fm.save(self.idAppunto, self.title, self.usertext.GetValue())
+            print self.usertext.GetValue()
+        except:
+            print "Unexpected error:", sys.exc_info()[0]
         self.Destroy()
 
 #wx.EXPAND
