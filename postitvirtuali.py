@@ -6,7 +6,7 @@ ID_CLEAR = 3
 ID_DELETE = 4
 
 
-class ListBox(wx.Frame):
+class PostItVirtuali(wx.Frame):
     def __init__(self, parent, id, title):
 
         wx.Frame.__init__(self, parent, id, title, size=(400, 220))
@@ -69,5 +69,5 @@ class ListBox(wx.Frame):
 
 #Lancio l'app
 app = wx.App()
-ListBox(None, -1, 'NonMiFreghiPiuDonnaDellePulizie') #parent, id, titolo
+PostItVirtuali(None, -1, 'NonMiFreghiPiuDonnaDellePulizie') #parent, id, titolo
 app.MainLoop()
