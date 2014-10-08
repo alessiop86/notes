@@ -95,3 +95,4 @@ class FileManager:
         with open(self.INDEX, 'wb') as outfile:
             json.dump(self._dictionary, outfile)
         print "delete() finito"
+

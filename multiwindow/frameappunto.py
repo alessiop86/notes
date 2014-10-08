@@ -22,6 +22,11 @@ class FrameAppunto(wx.Frame):
         self.father = father
 
 
+        if (idAppunto != 0):
+            fm = FileManager.Instance()
+            text = fm.getTextEsistente(idAppunto)
+            self.usertext.SetValue(text)
+
         self.Bind(wx.EVT_CLOSE, self.OnClose)
 
 
@@ -29,49 +34,13 @@ class FrameAppunto(wx.Frame):
 
         try:
             fm = FileManager.Instance()
-            """
-            fm.save(self.idAppunto, self.title, self.usertext.GetValue())
-            print self.usertext.GetValue()
-            """
-            fm.salvaNuovo(self.title, self.usertext.GetValue())
+
+            if  (str(self.idAppunto) == str(0)):
+                fm.salvaNuovo(self.title, self.usertext.GetValue())
+            else:
+                fm.salvaEsistente(self.idAppunto, self.usertext.GetValue())
             self.father.loadDataAndRefreshListBox()
         except:
             print "Unexpected error:", sys.exc_info()
         self.Destroy()
 
-#wx.EXPAND
-        """
-        #ppannello per i controlli
-        userin = wx.Panel(self, -1, (0,100), (200,100))
-        wx.StaticText(userin, -1, "Type\nHere", pos=(15,0))
-        userbox = wx.TextCtrl(userin, -1, "", pos=(48,5))
-        self.box1 = userbox
-
-        # ------ Button to take text from userbox and place it in textarea
-        Press = wx.Button(userin, -1, "Press", (60,30))
-
-        Press.Bind(wx.EVT_BUTTON, self.inserttext)
-
-
-    def inserttext(self, event):
-        getit = self.box1.GetLineText(1)
-        print getit
-        self.box1.Clear()
-        self.usertext.AppendText(getit)
-
-    def mouseclick(self, event):
-
-        self.box1.Clear()
-
-"""
-
-"""class MainApp(wx.App):
-    def OnInit(self):
-        myWindow = FrameAppunto(None, -1, "Text to Textarea")
-        myWindow.Show(True)
-        self.SetTopWindow(myWindow)
-        return(True)
-
-AppStart = MainApp(0)
-AppStart.MainLoop()
-"""

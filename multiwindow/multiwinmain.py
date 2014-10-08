@@ -5,7 +5,7 @@ from filemanager import FileManager
 
 
 ID_NEW = 1
-ID_RENAME = 2
+#ID_RENAME = 2
 ID_DELETE = 4
 
 
@@ -24,21 +24,21 @@ class PostItVirtuali(wx.Frame):
         #pannello dei bottoni
         btnPanel = wx.Panel(panel, -1)
         new = wx.Button(btnPanel, ID_NEW, 'New', size=(90, 30))
-        ren = wx.Button(btnPanel, ID_RENAME, 'Rename', size=(90, 30))
+      #  ren = wx.Button(btnPanel, ID_RENAME, 'Rename', size=(90, 30))
         dlt = wx.Button(btnPanel, ID_DELETE, 'Delete', size=(90, 30))
 
 
         #definisco eventi associati ai bottoni
         self.Bind(wx.EVT_BUTTON, self.NewItem, id=ID_NEW)
-        self.Bind(wx.EVT_BUTTON, self.OnRename, id=ID_RENAME)
+        #self.Bind(wx.EVT_BUTTON, self.OnRename, id=ID_RENAME)
         self.Bind(wx.EVT_BUTTON, self.OnDelete, id=ID_DELETE)
-        self.Bind(wx.EVT_LISTBOX_DCLICK, self.OnRename)
+        self.Bind(wx.EVT_LISTBOX_DCLICK, self.wantToEdit)
 
         #verticalbox su cui metto i bottoni
         vbox = wx.BoxSizer(wx.VERTICAL)
         vbox.Add((-1, 20))
         vbox.Add(new)
-        vbox.Add(ren, 0, wx.TOP, 5)
+       # vbox.Add(ren, 0, wx.TOP, 5)
         vbox.Add(dlt, 0, wx.TOP, 5)
 
         btnPanel.SetSizer(vbox)
@@ -47,13 +47,10 @@ class PostItVirtuali(wx.Frame):
 
         self.Centre()
         self.Show(True)
-
         self.loadDataAndRefreshListBox()
 
     def loadDataAndRefreshListBox(self):
-
         self.listbox.Clear()
-
         fm = FileManager.Instance()
         dictionary = fm.getDictionary()
         files = dictionary['files']
@@ -61,19 +58,26 @@ class PostItVirtuali(wx.Frame):
         for obj in files:
             self.listbox.Append(obj['title'],str(obj['id']))
 
+    def wantToEdit(self,event):
+        selectedIndex = self.listbox.GetSelection()
+        selectedTitle = self.listbox.GetStringSelection()
+        selectedId = self.listbox.GetClientData(selectedIndex)
+        myWindow = FrameAppunto(None, -1, selectedTitle,selectedId,self)
+        myWindow.Show(True)
+        #self.SetTopWindow(myWindow)
 
 
     def NewItem(self, event):
 
-        text = wx.GetTextFromUser('Nome della nota', ':-)')
-        if text != '':
+        title = wx.GetTextFromUser('Nome della nota', ':-)')
+        if title != '':
         #   self.listbox.Append(text)
-            myWindow = FrameAppunto(None, -1, text,0,self)
+            myWindow = FrameAppunto(None, -1, title,0,self)
             myWindow.Show(True)
             #self.SetTopWindow(myWindow)
-            self.loadDataAndRefreshListBox()
+            #self.loadDataAndRefreshListBox()
 
-
+    """
     def OnRename(self, event):
         sel = self.listbox.GetSelection()
         text = self.listbox.GetString(sel)
@@ -81,6 +85,7 @@ class PostItVirtuali(wx.Frame):
         if renamed != '':
             self.listbox.Delete(sel)
             self.listbox.Insert(renamed, sel)
+    """
 
 
     def OnDelete(self, event):
