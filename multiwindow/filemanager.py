@@ -68,3 +68,30 @@ class FileManager:
 
     def getDictionary(self):
         return self._dictionary
+
+    def delete(self,id):
+        print "delete()" + str(id)
+        files = self._dictionary['files']
+        #for obj in files:
+        #    if (int(obj['id']) == id):
+        #        files.pop(obj)
+        #        obj.remove()
+        #files.append({ 'id':id, 'title' : title })
+
+        for c in files:
+            print c.get('id')
+            if (str(c.get('id')) == str(id)):
+                print "EUREKA"
+
+        print files
+        files[:] = [d for d in files if str(d.get('id')) != str(id)]
+
+        print files
+        #print "1"
+        #print files
+        #print "2"
+        #print self._dictionary
+
+        with open(self.INDEX, 'wb') as outfile:
+            json.dump(self._dictionary, outfile)
+        print "delete() finito"

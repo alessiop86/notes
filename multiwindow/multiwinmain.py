@@ -48,17 +48,17 @@ class PostItVirtuali(wx.Frame):
         self.Centre()
         self.Show(True)
 
+        self.loadDataAndRefreshListBox()
 
-        self.loadData()
+    def loadDataAndRefreshListBox(self):
 
-    def loadData(self):
+        self.listbox.Clear()
+
         fm = FileManager.Instance()
         dictionary = fm.getDictionary()
         files = dictionary['files']
         print files
         for obj in files:
-            print obj['id']
-            print obj['title']
             self.listbox.Append(obj['title'],str(obj['id']))
 
 
@@ -68,9 +68,10 @@ class PostItVirtuali(wx.Frame):
         text = wx.GetTextFromUser('Nome della nota', ':-)')
         if text != '':
         #   self.listbox.Append(text)
-            myWindow = FrameAppunto(None, -1, text,0)
+            myWindow = FrameAppunto(None, -1, text,0,self)
             myWindow.Show(True)
             #self.SetTopWindow(myWindow)
+            self.loadDataAndRefreshListBox()
 
 
     def OnRename(self, event):
@@ -83,15 +84,22 @@ class PostItVirtuali(wx.Frame):
 
 
     def OnDelete(self, event):
-        sel = self.listbox.GetSelection()
-        if sel != -1:
-            self.listbox.Delete(sel)
+        selectedIndex = self.listbox.GetSelection()
+        selectedId = self.listbox.GetClientData(selectedIndex)
+        #print self.listbox.GetString()
+
+        fm = FileManager.Instance()
+        fm.delete(selectedId)
+
+        if selectedIndex != -1:
+            self.listbox.Delete(selectedIndex)
 
 
 
 
 
-fm = FileManager.Instance()
+
+#fm = FileManager.Instance()
 #print fm.getTextEsistente(4)#
 
 

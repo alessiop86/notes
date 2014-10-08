@@ -5,7 +5,7 @@ from filemanager import  FileManager
 class FrameAppunto(wx.Frame):
 
 
-    def __init__(self, parent, ID, title, idAppunto):
+    def __init__(self, parent, ID, title, idAppunto,father):
 
         #definisco il frame principale (la window)
         wx.Frame.__init__(self, parent, ID, title,wx.DefaultPosition,
@@ -19,6 +19,7 @@ class FrameAppunto(wx.Frame):
         self.usertext = textarea
         self.title = title
         self.idAppunto = idAppunto
+        self.father = father
 
 
         self.Bind(wx.EVT_CLOSE, self.OnClose)
@@ -33,6 +34,7 @@ class FrameAppunto(wx.Frame):
             print self.usertext.GetValue()
             """
             fm.salvaNuovo(self.title, self.usertext.GetValue())
+            self.father.loadDataAndRefreshListBox()
         except:
             print "Unexpected error:", sys.exc_info()
         self.Destroy()
