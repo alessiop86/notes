@@ -62,7 +62,8 @@ class PostItVirtuali(wx.Frame):
         selectedIndex = self.listbox.GetSelection()
         selectedTitle = self.listbox.GetStringSelection()
         selectedId = self.listbox.GetClientData(selectedIndex)
-        myWindow = FrameAppunto(None, -1, selectedTitle,selectedId,self)
+        displayedTitle = "(" + str(selectedId) + ".txt)" + selectedTitle
+        myWindow = FrameAppunto(None, -1, displayedTitle ,selectedId,self)
         myWindow.Show(True)
         #self.SetTopWindow(myWindow)
 
@@ -77,6 +78,7 @@ class PostItVirtuali(wx.Frame):
             #self.SetTopWindow(myWindow)
             #self.loadDataAndRefreshListBox()
 
+    #TODO
     """
     def OnRename(self, event):
         sel = self.listbox.GetSelection()
@@ -98,14 +100,6 @@ class PostItVirtuali(wx.Frame):
 
         if selectedIndex != -1:
             self.listbox.Delete(selectedIndex)
-
-
-
-
-
-
-#fm = FileManager.Instance()
-#print fm.getTextEsistente(4)#
 
 
 #Lancio l'app
